@@ -52,7 +52,6 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(name = "created_at")
-    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Override

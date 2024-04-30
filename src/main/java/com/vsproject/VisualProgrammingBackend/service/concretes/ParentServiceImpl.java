@@ -11,6 +11,8 @@ import com.vsproject.VisualProgrammingBackend.service.abstracts.ParentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class ParentServiceImpl implements ParentService {
@@ -33,7 +35,6 @@ public class ParentServiceImpl implements ParentService {
         authUserUtil.demolishUser(user);
 
         Parent parent = Parent.builder()
-                .id(user.getId())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .firstname(user.getFirstname())
@@ -44,6 +45,7 @@ public class ParentServiceImpl implements ParentService {
                 .createdAt(user.getCreatedAt())
 
                 .billingAddress(request.getBillingAddress())
+                .upgradedAt(LocalDateTime.now())
                 .build();
 
         return save(parent);

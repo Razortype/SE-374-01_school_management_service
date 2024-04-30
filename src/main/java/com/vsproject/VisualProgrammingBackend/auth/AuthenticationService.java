@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,7 @@ public class AuthenticationService {
                 .phoneNumber(request.getPhoneNumber())
                 .birthYear(request.getBirthYear())
                 .role(Role.USER)
+                .createdAt(LocalDateTime.now())
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);

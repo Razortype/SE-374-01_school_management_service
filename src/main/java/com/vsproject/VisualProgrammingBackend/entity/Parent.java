@@ -25,7 +25,6 @@ public class Parent extends User {
     private String billingAddress;
 
     @Column(name = "upgraded_at")
-    @CreationTimestamp
     private LocalDateTime upgradedAt;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)

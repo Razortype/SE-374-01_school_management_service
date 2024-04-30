@@ -30,7 +30,6 @@ public class Student extends User {
     private boolean inSchool;
 
     @Column(name = "upgraded_at")
-    @CreationTimestamp
     private LocalDateTime upgradedAt;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
