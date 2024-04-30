@@ -1,8 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.core.enums;
 
-public enum Role {
-    USER,
+public enum AccountType {
     STUDENT,
-    PARENT,
-    ADMIN
+    PARENT
 }

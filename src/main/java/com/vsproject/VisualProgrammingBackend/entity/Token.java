@@ -37,7 +37,7 @@ public class Token {
     @CreationTimestamp
     public Timestamp createAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id")
     public User user;
 

@@ -1,6 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.repository;
 
 import com.vsproject.VisualProgrammingBackend.entity.Token;
+import com.vsproject.VisualProgrammingBackend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,6 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     List<Token> findAllValidTokenByUser(int id);
 
     Optional<Token> findByToken(String token);
+
+    void deleteAllByUser(User user);
 }

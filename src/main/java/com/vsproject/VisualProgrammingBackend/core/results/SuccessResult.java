@@ -1,5 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.core.results;
 
+import org.springframework.http.HttpStatus;
+
 public class SuccessResult extends Result {
 
     public SuccessResult() {
@@ -8,6 +10,14 @@ public class SuccessResult extends Result {
 
     public SuccessResult(String message) {
         super(true, message);
+    }
+
+    public SuccessResult(HttpStatus httpStatus) {
+        super(true, httpStatus);
+    }
+
+    public SuccessResult(String message, HttpStatus httpStatus) {
+        super(true, message, httpStatus);
     }
 
 }
