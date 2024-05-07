@@ -68,7 +68,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/auth/**").permitAll()
 
                         .requestMatchers("/api/v1/parent/**").hasAnyAuthority(Role.PARENT.name(), Role.ADMIN.name())
-                        .requestMatchers("/api/v1/student/**").hasAnyAuthority(Role.PARENT.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/v1/student/**").hasAnyAuthority(Role.STUDENT.name(), Role.ADMIN.name())
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority(Role.ADMIN.name())
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session

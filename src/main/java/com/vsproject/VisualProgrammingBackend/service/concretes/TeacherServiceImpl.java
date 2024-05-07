@@ -1,13 +1,13 @@
 package com.vsproject.VisualProgrammingBackend.service.concretes;
 
-import com.vsproject.VisualProgrammingBackend.api.dto.ParentUpgradeRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.TeacherUpgradeRequest;
 import com.vsproject.VisualProgrammingBackend.core.enums.Role;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.AuthUserUtil;
-import com.vsproject.VisualProgrammingBackend.entity.Parent;
+import com.vsproject.VisualProgrammingBackend.entity.Teacher;
 import com.vsproject.VisualProgrammingBackend.entity.User;
-import com.vsproject.VisualProgrammingBackend.repository.ParentRepository;
-import com.vsproject.VisualProgrammingBackend.service.abstracts.ParentService;
+import com.vsproject.VisualProgrammingBackend.repository.TeacherRepository;
+import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,49 +15,52 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class ParentServiceImpl implements ParentService {
+public class TeacherServiceImpl implements TeacherService {
 
-    private final ParentRepository parentRepository;
+    private final TeacherRepository teacherRepository;
     private final AuthUserUtil authUserUtil;
 
     @Override
-    public DataResult<Parent> getParentByEmail(String email) {
-        Parent parent = parentRepository.findParentByEmail(email).orElse(null);
-        if (parent == null) {
-            return new ErrorDataResult<>("Parent not found: " + email);
+    public DataResult<Teacher> getParentByEmail(String email) {
+
+        Teacher teacher = teacherRepository.findTeacherByEmail(email).orElse(null);
+        if (teacher == null) {
+            return new ErrorDataResult<>("Teacher not found: " + email);
         }
-        return new SuccessDataResult<>(parent, "Parent found");
+        return new SuccessDataResult<>(teacher, "Teacher found");
+
     }
 
     @Override
-    public Result create(User user, ParentUpgradeRequest request) {
+    public Result create(User user, TeacherUpgradeRequest request) {
 
         authUserUtil.demolishUser(user);
 
-        Parent parent = Parent.builder()
+        Teacher teacher = Teacher.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
                 .phoneNumber(user.getPhoneNumber())
-                .role(Role.PARENT)
+                .role(Role.TEACHER)
                 .birthYear(user.getBirthYear())
                 .createdAt(user.getCreatedAt())
 
-                .billingAddress(request.getBillingAddress())
+                .profession(request.getProfession())
                 .upgradedAt(LocalDateTime.now())
                 .build();
 
-        return save(parent);
+        return save(teacher);
+
     }
 
     @Override
-    public Result save(Parent parent) {
+    public Result save(Teacher teacher) {
         try {
-            parentRepository.save(parent);
+            teacherRepository.save(teacher);
         } catch (Exception e) {
             return new ErrorResult("UEO: " + e.getMessage());
         }
-        return new SuccessResult("Parent saved");
+        return new SuccessResult("Teacher saved");
     }
 }

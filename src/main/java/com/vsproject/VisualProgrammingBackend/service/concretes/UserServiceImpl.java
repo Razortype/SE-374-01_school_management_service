@@ -2,8 +2,10 @@ package com.vsproject.VisualProgrammingBackend.service.concretes;
 
 import com.vsproject.VisualProgrammingBackend.api.dto.ParentUpgradeRequest;
 import com.vsproject.VisualProgrammingBackend.api.dto.StudentUpgradeRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.TeacherUpgradeRequest;
 import com.vsproject.VisualProgrammingBackend.api.dto.UserUpgradeRequest;
 import com.vsproject.VisualProgrammingBackend.core.enums.AccountType;
+import com.vsproject.VisualProgrammingBackend.core.enums.Profession;
 import com.vsproject.VisualProgrammingBackend.core.enums.Role;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.AuthUserUtil;
@@ -11,6 +13,7 @@ import com.vsproject.VisualProgrammingBackend.entity.User;
 import com.vsproject.VisualProgrammingBackend.repository.UserRepository;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.ParentService;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.StudentService;
+import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final ParentService parentService;
     private final StudentService studentService;
+    private final TeacherService teacherService;
 
     private final AuthUserUtil authUserUtil;
 
@@ -81,6 +85,8 @@ public class UserServiceImpl implements UserService {
             createResult = parentService.create(user, (ParentUpgradeRequest) upgradeDto);
         } else if (upgradeDto instanceof StudentUpgradeRequest) {
             createResult = studentService.create(user, (StudentUpgradeRequest) upgradeDto);
+        } else if (upgradeDto instanceof TeacherUpgradeRequest) {
+            createResult = teacherService.create(user, (TeacherUpgradeRequest) upgradeDto);
         }
 
         return createResult;
@@ -103,7 +109,9 @@ public class UserServiceImpl implements UserService {
 
         // student params
         String schoolNumber = "";
-        String className = "";
+
+        // teacher params
+        Profession profession = Profession.NOT_DEFINED;
 
         try {
 
@@ -113,7 +121,9 @@ public class UserServiceImpl implements UserService {
                 }
                 case STUDENT -> {
                     schoolNumber = (String) request.get("school_number");
-                    className = (String) request.get("class_name");
+                }
+                case TEACHER -> {
+                    profession = (Profession) request.get("profession");
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -134,7 +144,12 @@ public class UserServiceImpl implements UserService {
                     .lastname(lastname)
                     .phoneNumber(phoneNumber)
                     .schoolNumber(schoolNumber)
-                    .className(className)
+                    .build();
+            case TEACHER -> TeacherUpgradeRequest.builder()
+                    .firstname(firstname)
+                    .lastname(lastname)
+                    .phoneNumber(phoneNumber)
+                    .profession(profession)
                     .build();
         };
 

@@ -1,5 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
+import com.vsproject.VisualProgrammingBackend.core.enums.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,24 +9,20 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "parent")
+@Table(name = "teacher")
 @EntityListeners(AuditingEntityListener.class)
-public class Parent extends User {
+public class Teacher extends User {
 
-    @Column(name = "billing_address")
-    private String billingAddress;
+    @Enumerated(EnumType.STRING)
+    private Profession profession;
 
     @Column(name = "upgraded_at")
     private LocalDateTime upgradedAt;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private Set<StudentParentRelation> studentRelations;
 
 }

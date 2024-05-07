@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -22,9 +21,6 @@ public class Student extends User {
 
     @Column(name = "school_number", unique = true)
     private String schoolNumber;
-
-    @Column(name = "class_name")
-    private String className;
 
     @Column(name = "in_school")
     private boolean inSchool;

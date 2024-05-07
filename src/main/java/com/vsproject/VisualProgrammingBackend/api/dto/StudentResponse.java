@@ -1,24 +1,24 @@
 package com.vsproject.VisualProgrammingBackend.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentCreateRequest {
+public class StudentResponse {
 
+    private int id;
     private String email;
-    private String password;
     private String firstname;
     private String lastname;
-
-    @JsonProperty("school_number")
-    private String schoolNumber;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
@@ -26,7 +26,10 @@ public class StudentCreateRequest {
     @JsonProperty("birth_year")
     private int birthYear;
 
-    @JsonProperty("class_name")
-    private String className;
+    @JsonProperty("school_number")
+    private String schoolNumber;
+
+    @Column(name = "in_school")
+    private boolean inSchool;
 
 }

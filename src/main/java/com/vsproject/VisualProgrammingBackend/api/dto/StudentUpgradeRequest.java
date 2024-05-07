@@ -14,7 +14,4 @@ public class StudentUpgradeRequest extends UserUpgradeRequest {
     @JsonProperty("school_number")
     private String schoolNumber;
 
-    @JsonProperty("class_name")
-    private String className;
-
 }

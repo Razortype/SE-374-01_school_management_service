@@ -1,6 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vsproject.VisualProgrammingBackend.core.enums.Profession;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentCreateRequest {
+public class TeacherCreateRequest {
 
     private String email;
     private String password;
     private String firstname;
     private String lastname;
-
-    @JsonProperty("school_number")
-    private String schoolNumber;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
@@ -26,7 +24,6 @@ public class StudentCreateRequest {
     @JsonProperty("birth_year")
     private int birthYear;
 
-    @JsonProperty("class_name")
-    private String className;
+    private Profession profession;
 
 }

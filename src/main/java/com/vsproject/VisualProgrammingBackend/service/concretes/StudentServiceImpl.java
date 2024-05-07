@@ -1,10 +1,12 @@
 package com.vsproject.VisualProgrammingBackend.service.concretes;
 
 import com.vsproject.VisualProgrammingBackend.api.dto.StudentCreateRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.StudentResponse;
 import com.vsproject.VisualProgrammingBackend.api.dto.StudentUpgradeRequest;
 import com.vsproject.VisualProgrammingBackend.core.enums.Role;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.AuthUserUtil;
+import com.vsproject.VisualProgrammingBackend.core.utils.StudentUtils;
 import com.vsproject.VisualProgrammingBackend.entity.Student;
 import com.vsproject.VisualProgrammingBackend.entity.User;
 import com.vsproject.VisualProgrammingBackend.repository.StudentRepository;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final AuthUserUtil authUserUtil;
     private final PasswordEncoder passwordEncoder;
+
+    private final StudentUtils studentUtils;
 
     @Override
     public DataResult<Student> getStudentByEmail(String email) {
@@ -76,16 +81,24 @@ public class StudentServiceImpl implements StudentService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
+                .schoolNumber(request.getSchoolNumber())
                 .phoneNumber(request.getPhoneNumber())
                 .birthYear(request.getBirthYear())
                 .role(Role.STUDENT)
                 .createdAt(now)
-                .schoolNumber(request.getSchoolNumber())
-                .className(request.getClassName())
                 .upgradedAt(now)
                 .build();
 
         return save(student);
+
+    }
+
+    @Override
+    public DataResult<List<StudentResponse>> getAllStudents() {
+
+        List<Student> students = studentRepository.findAll();
+        List<StudentResponse> responseList = studentUtils.mapToStudentResponses(students);
+        return new SuccessDataResult<>(responseList, "Students fetched");
 
     }
 
