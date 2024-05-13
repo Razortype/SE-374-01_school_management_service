@@ -12,11 +12,11 @@ import java.util.List;
 public class EnumUtil {
 
     public DataResult<List<String>> getPublicEnumValues(String enumName) {
-        return getEnumValuesByPath(enumName, "com.webinen.automediamvc.core.enums.publicEnums.");
+        return getEnumValuesByPath(enumName, "com.vsproject.VisualProgrammingBackend.core.enums.publicEnums.");
     }
 
     public DataResult<List<String>> getPrivateEnumValues(String enumName) {
-        return getEnumValuesByPath(enumName, "com.webinen.automediamvc.core.enums.privateEnums.");
+        return getEnumValuesByPath(enumName, "com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.");
     }
 
     public DataResult<List<String>> getEnumValuesByPath(String enumName, String path) {

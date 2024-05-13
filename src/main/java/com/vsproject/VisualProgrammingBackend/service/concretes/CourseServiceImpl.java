@@ -10,7 +10,6 @@ import com.vsproject.VisualProgrammingBackend.entity.Teacher;
 import com.vsproject.VisualProgrammingBackend.repository.CourseRepository;
 import com.vsproject.VisualProgrammingBackend.repository.CourseSectionRepository;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.CourseService;
-import com.vsproject.VisualProgrammingBackend.service.abstracts.SchoolClassService;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ public class CourseServiceImpl implements CourseService {
     private final CourseSectionRepository courseSectionRepository;
 
     private final TeacherService teacherService;
-    private final SchoolClassService schoolClassService;
 
     @Override
     public Result createCourse(CourseCreateRequest request) {
