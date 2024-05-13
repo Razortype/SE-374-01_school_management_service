@@ -9,8 +9,10 @@ import com.vsproject.VisualProgrammingBackend.entity.User;
 
 public interface TeacherService {
 
-    DataResult<Teacher> getParentByEmail(String email);
+    DataResult<Teacher> getTeacherByEmail(String email);
     Result create(User user, TeacherUpgradeRequest request);
     Result save(Teacher teacher);
+
+    DataResult<Teacher> getTeacherById(int id);
 
 }

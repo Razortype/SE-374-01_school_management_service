@@ -19,4 +19,6 @@ public interface StudentService {
 
     DataResult<List<StudentResponse>> getAllStudents();
 
+    List<Student> getStudentListByIdList(List<Integer> studentIds);
+
 }

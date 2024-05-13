@@ -102,4 +102,10 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
+    @Override
+    public List<Student> getStudentListByIdList(List<Integer> studentIds) {
+        List<Student> students = studentRepository.findAllByIdIn(studentIds);
+        return students;
+    }
+
 }

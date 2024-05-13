@@ -21,7 +21,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final AuthUserUtil authUserUtil;
 
     @Override
-    public DataResult<Teacher> getParentByEmail(String email) {
+    public DataResult<Teacher> getTeacherByEmail(String email) {
 
         Teacher teacher = teacherRepository.findTeacherByEmail(email).orElse(null);
         if (teacher == null) {
@@ -62,5 +62,14 @@ public class TeacherServiceImpl implements TeacherService {
             return new ErrorResult("UEO: " + e.getMessage());
         }
         return new SuccessResult("Teacher saved");
+    }
+
+    @Override
+    public DataResult<Teacher> getTeacherById(int id) {
+        Teacher teacher = teacherRepository.findById(id).orElse(null);
+        if (teacher == null) {
+            return new ErrorDataResult<>("Teacher not found: " + id);
+        }
+        return new SuccessDataResult<>(teacher, "Teacher found");
     }
 }

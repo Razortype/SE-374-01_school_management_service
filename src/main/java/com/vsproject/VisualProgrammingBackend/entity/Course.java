@@ -1,7 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vsproject.VisualProgrammingBackend.core.enums.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,27 +8,32 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "teacher")
+@Table(name = "course")
 @EntityListeners(AuditingEntityListener.class)
-public class Teacher extends User {
+public class Course {
 
-    @Enumerated(EnumType.STRING)
-    private Profession profession;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    @Column(name = "upgraded_at")
-    private LocalDateTime upgradedAt;
+    @Column(name = "course_name", unique = true)
+    private String courseName;
 
-    // one-to-many course section
-    @OneToMany(mappedBy = "teacher")
+    @Column(name = "course_code", unique = true)
+    private String courseCode;
+
+    // course part one-to-many
+    @OneToMany(mappedBy = "course")
     @JsonIgnore
     private List<CourseSection> courseSections;
+
 
 }
