@@ -64,8 +64,8 @@ public class SecurityConfiguration {
                 .cors((cors) -> cors
                         .configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/v1/fauth/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/enum/public/**").permitAll()
 
                         .requestMatchers("/api/v1/parent/**").hasAnyAuthority(Role.PARENT.name(), Role.ADMIN.name())
                         .requestMatchers("/api/v1/student/**").hasAnyAuthority(Role.STUDENT.name(), Role.ADMIN.name())

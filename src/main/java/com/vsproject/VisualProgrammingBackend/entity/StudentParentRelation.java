@@ -1,6 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
-import com.vsproject.VisualProgrammingBackend.core.enums.RelationType;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.RelationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

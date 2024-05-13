@@ -1,6 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
-import com.vsproject.VisualProgrammingBackend.core.enums.AttendanceType;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.AttendanceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

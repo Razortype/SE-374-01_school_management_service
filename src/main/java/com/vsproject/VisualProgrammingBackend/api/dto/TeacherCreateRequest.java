@@ -1,7 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vsproject.VisualProgrammingBackend.core.enums.Profession;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.Profession;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

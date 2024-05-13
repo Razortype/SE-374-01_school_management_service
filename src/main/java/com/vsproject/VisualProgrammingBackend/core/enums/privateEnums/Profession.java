@@ -1,4 +1,4 @@
-package com.vsproject.VisualProgrammingBackend.core.enums;
+package com.vsproject.VisualProgrammingBackend.core.enums.privateEnums;
 
 public enum Profession {
 

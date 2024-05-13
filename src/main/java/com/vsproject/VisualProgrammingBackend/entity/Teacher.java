@@ -1,7 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vsproject.VisualProgrammingBackend.core.enums.Profession;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.Profession;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

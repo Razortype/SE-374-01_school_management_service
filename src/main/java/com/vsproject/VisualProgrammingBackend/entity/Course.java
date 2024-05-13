@@ -24,8 +24,8 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "course_name", unique = true)
-    private String courseName;
+    @Column(name = "course_title", unique = true)
+    private String courseTitle;
 
     @Column(name = "course_code", unique = true)
     private String courseCode;

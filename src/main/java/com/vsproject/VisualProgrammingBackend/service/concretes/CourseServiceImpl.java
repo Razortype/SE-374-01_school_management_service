@@ -1,5 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.service.concretes;
 
+import com.vsproject.VisualProgrammingBackend.api.dto.CourseCreateRequest;
 import com.vsproject.VisualProgrammingBackend.api.dto.CourseSectionCreateRequest;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.entity.Course;
@@ -14,6 +15,7 @@ import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -25,6 +27,29 @@ public class CourseServiceImpl implements CourseService {
 
     private final TeacherService teacherService;
     private final SchoolClassService schoolClassService;
+
+    @Override
+    public Result createCourse(CourseCreateRequest request) {
+
+        Course course = Course.builder()
+                .courseTitle(request.getCourseTitle())
+                .courseCode(request.getCourseCode())
+                .courseSections(new ArrayList<>())
+                .build();
+
+        return save(course);
+
+    }
+
+    @Override
+    public Result save(Course course) {
+        try {
+            courseRepository.save(course);
+        } catch (Exception e) {
+            return new ErrorResult("UEO: " + e.getMessage());
+        }
+        return new SuccessResult("Course saved");
+    }
 
     @Override
     public DataResult<Course> getCourseById(UUID id) {
@@ -46,7 +71,6 @@ public class CourseServiceImpl implements CourseService {
         if (!courseResult.isSuccess()) {
             return new ErrorDataResult<>(courseResult.getMessage());
         }
-
 
         CourseSection courseSection = CourseSection.builder()
                 .teacher((Teacher) teacherResult.getData())

@@ -1,6 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.service.abstracts;
 
-import com.vsproject.VisualProgrammingBackend.core.enums.AccountType;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.AccountType;
 import com.vsproject.VisualProgrammingBackend.core.results.DataResult;
 import com.vsproject.VisualProgrammingBackend.core.results.Result;
 import com.vsproject.VisualProgrammingBackend.entity.User;
