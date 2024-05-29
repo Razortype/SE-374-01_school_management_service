@@ -1,6 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.WeekDay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,11 +25,17 @@ public class CourseSection {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "start_time")
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime startTime;
 
+    @Column(name = "end_time")
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime endTime;
+
+    @Column(name = "week_day")
+    @Enumerated(EnumType.STRING)
+    private WeekDay weekDay;
 
     // teacher many-to-one
     @ManyToOne
@@ -37,12 +44,12 @@ public class CourseSection {
 
     // course many-to-one
     @ManyToOne
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
     private Course course;
 
     // school class many-to-one
     @ManyToOne
-    @JoinColumn(name = "school_class_id", referencedColumnName = "id")
+    @JoinColumn(name = "school_class_id", referencedColumnName = "id", nullable = false)
     private SchoolClass schoolClass;
 
 }

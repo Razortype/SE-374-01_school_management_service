@@ -24,10 +24,10 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "course_title", unique = true)
+    @Column(name = "course_title", nullable = false)
     private String courseTitle;
 
-    @Column(name = "course_code", unique = true)
+    @Column(name = "course_code", nullable = false)
     private String courseCode;
 
     // course part one-to-many

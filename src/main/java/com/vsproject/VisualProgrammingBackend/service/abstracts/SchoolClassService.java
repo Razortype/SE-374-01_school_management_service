@@ -2,6 +2,7 @@ package com.vsproject.VisualProgrammingBackend.service.abstracts;
 
 import com.vsproject.VisualProgrammingBackend.api.dto.ClassCreateRequest;
 import com.vsproject.VisualProgrammingBackend.api.dto.CourseSectionCreateRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.SchoolClassResponse;
 import com.vsproject.VisualProgrammingBackend.core.results.DataResult;
 import com.vsproject.VisualProgrammingBackend.core.results.Result;
 import com.vsproject.VisualProgrammingBackend.entity.CourseSection;
@@ -20,5 +21,7 @@ public interface SchoolClassService {
     Result addStudent(UUID schoolClassId, List<Integer> studentIds);
     Result removeStudents(UUID schoolClassId, List<Integer> studentIds);
     Result registerCourseSectionToClass(UUID schoolClassId, CourseSectionCreateRequest request);
+
+    DataResult<List<SchoolClassResponse>> getAllSchoolClassResponse(int page, int size);
 
 }

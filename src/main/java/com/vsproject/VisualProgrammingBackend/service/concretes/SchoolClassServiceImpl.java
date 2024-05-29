@@ -2,6 +2,7 @@ package com.vsproject.VisualProgrammingBackend.service.concretes;
 
 import com.vsproject.VisualProgrammingBackend.api.dto.ClassCreateRequest;
 import com.vsproject.VisualProgrammingBackend.api.dto.CourseSectionCreateRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.SchoolClassResponse;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.SchoolClassUtil;
 import com.vsproject.VisualProgrammingBackend.entity.CourseSection;
@@ -13,6 +14,8 @@ import com.vsproject.VisualProgrammingBackend.service.abstracts.SchoolClassServi
 import com.vsproject.VisualProgrammingBackend.service.abstracts.StudentService;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -115,6 +118,16 @@ public class SchoolClassServiceImpl implements SchoolClassService {
         }
 
         return courseService.registerToClass((SchoolClass) schoolClassResult.getData(), request);
+    }
+
+    @Override
+    public DataResult<List<SchoolClassResponse>> getAllSchoolClassResponse(int page, int size) {
+
+        Page<SchoolClass> classes = schoolClassRepository.findAll(PageRequest.of(page, size));
+        List<SchoolClassResponse> responses = schoolClassUtil.convertSchoolClassResponses(classes.toList());
+
+        return new SuccessDataResult<>(responses, "All SchoolClass fetched");
+
     }
 
 }

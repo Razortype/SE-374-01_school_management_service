@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentUtils {
+public class StudentUtil {
 
     public List<StudentResponse> mapToStudentResponses(List<Student> students) {
         return students.stream()

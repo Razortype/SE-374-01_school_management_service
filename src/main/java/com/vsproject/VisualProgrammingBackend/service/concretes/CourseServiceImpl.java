@@ -1,8 +1,9 @@
 package com.vsproject.VisualProgrammingBackend.service.concretes;
 
-import com.vsproject.VisualProgrammingBackend.api.dto.CourseCreateRequest;
-import com.vsproject.VisualProgrammingBackend.api.dto.CourseSectionCreateRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.*;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
+import com.vsproject.VisualProgrammingBackend.core.utils.CourseSectionUtil;
+import com.vsproject.VisualProgrammingBackend.core.utils.CourseUtil;
 import com.vsproject.VisualProgrammingBackend.entity.Course;
 import com.vsproject.VisualProgrammingBackend.entity.CourseSection;
 import com.vsproject.VisualProgrammingBackend.entity.SchoolClass;
@@ -12,9 +13,13 @@ import com.vsproject.VisualProgrammingBackend.repository.CourseSectionRepository
 import com.vsproject.VisualProgrammingBackend.service.abstracts.CourseService;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,6 +30,9 @@ public class CourseServiceImpl implements CourseService {
     private final CourseSectionRepository courseSectionRepository;
 
     private final TeacherService teacherService;
+
+    private final CourseUtil courseUtil;
+    private final CourseSectionUtil courseSectionUtil;
 
     @Override
     public Result createCourse(CourseCreateRequest request) {
@@ -83,6 +91,51 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public DataResult<List<CourseResponse>> getAllCourseResponse(int page, int size) {
+
+        Page<Course> courses = courseRepository.findAll(PageRequest.of(page, size));
+        List<CourseResponse> responses = courseUtil.convertCourseResponses(courses.toList());
+
+        return new SuccessDataResult(responses, "All Course fetched");
+
+    }
+
+    @Override
+    public Result editCourse(UUID courseId, CourseEditRequest request) {
+
+        DataResult<Course> courseResult = getCourseById(courseId);
+        if (!courseResult.isSuccess()) {
+            return new ErrorResult(courseResult.getMessage());
+        }
+        Course course = courseResult.getData();
+
+        course.setCourseTitle(request.getCourseTitle());
+        course.setCourseCode(request.getCourseCode());
+
+        Result saveResult = save(course);
+        if(!saveResult.isSuccess()) {
+            return saveResult;
+        }
+
+        return new SuccessResult("Course edited");
+
+    }
+
+    @Override
+    public DataResult<CourseSection> getCourseSectionById(UUID id) {
+
+        CourseSection section = courseSectionRepository.findById(id).orElse(null);
+        if (section == null) {
+            return new ErrorDataResult<>("CourseSection not found: " + id);
+        }
+
+        return new SuccessDataResult<>(section, "CourseSection found");
+
+    }
+
+    // course section
+
+    @Override
     public Result save(CourseSection courseSection) {
         try {
             courseSectionRepository.save(courseSection);
@@ -91,4 +144,40 @@ public class CourseServiceImpl implements CourseService {
         }
         return new SuccessResult("CourseSection saved");
     }
+
+
+
+    @Override
+    public DataResult<List<CourseSectionResponse>> getAllCourseSectionResponse(int page, int size) {
+
+        Page<CourseSection> courseSections = courseSectionRepository.findAll(PageRequest.of(page, size));
+        List<CourseSectionResponse> responses = courseSectionUtil.convertCourseSectionResponses(courseSections.toList());
+
+        return new SuccessDataResult<>(responses, "All CourseSection fetched");
+
+    }
+
+    @Override
+    public Result editCourseSection(UUID sectionId, CourseSectionEditRequest request) {
+
+        DataResult<CourseSection> sectionResult = getCourseSectionById(sectionId);
+        if (sectionResult.isSuccess()) {
+            return new ErrorResult(sectionResult.getMessage());
+        }
+        CourseSection section = sectionResult.getData();
+
+        section.setStartTime(request.getStartTime());
+        section.setEndTime(request.getEndTime());
+        section.setWeekDay(request.getWeekDay());
+
+        Result saveResult = save(section);
+        if (!saveResult.isSuccess()) {
+            return saveResult;
+        }
+
+        return new SuccessResult("CourseSection edited");
+
+    }
+
+
 }

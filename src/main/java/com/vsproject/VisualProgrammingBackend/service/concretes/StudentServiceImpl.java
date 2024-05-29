@@ -6,7 +6,7 @@ import com.vsproject.VisualProgrammingBackend.api.dto.StudentUpgradeRequest;
 import com.vsproject.VisualProgrammingBackend.core.enums.Role;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.AuthUserUtil;
-import com.vsproject.VisualProgrammingBackend.core.utils.StudentUtils;
+import com.vsproject.VisualProgrammingBackend.core.utils.StudentUtil;
 import com.vsproject.VisualProgrammingBackend.entity.Student;
 import com.vsproject.VisualProgrammingBackend.entity.User;
 import com.vsproject.VisualProgrammingBackend.repository.StudentRepository;
@@ -26,7 +26,7 @@ public class StudentServiceImpl implements StudentService {
     private final AuthUserUtil authUserUtil;
     private final PasswordEncoder passwordEncoder;
 
-    private final StudentUtils studentUtils;
+    private final StudentUtil studentUtil;
 
     @Override
     public DataResult<Student> getStudentByEmail(String email) {
@@ -97,7 +97,7 @@ public class StudentServiceImpl implements StudentService {
     public DataResult<List<StudentResponse>> getAllStudents() {
 
         List<Student> students = studentRepository.findAll();
-        List<StudentResponse> responseList = studentUtils.mapToStudentResponses(students);
+        List<StudentResponse> responseList = studentUtil.mapToStudentResponses(students);
         return new SuccessDataResult<>(responseList, "Students fetched");
 
     }

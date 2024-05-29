@@ -1,17 +1,27 @@
 package com.vsproject.VisualProgrammingBackend.service.concretes;
 
+import com.vsproject.VisualProgrammingBackend.api.dto.TeacherCreateRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.TeacherResponse;
 import com.vsproject.VisualProgrammingBackend.api.dto.TeacherUpgradeRequest;
+import com.vsproject.VisualProgrammingBackend.auth.AuthenticationService;
+import com.vsproject.VisualProgrammingBackend.config.JwtService;
 import com.vsproject.VisualProgrammingBackend.core.enums.Role;
 import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.AuthUserUtil;
+import com.vsproject.VisualProgrammingBackend.core.utils.TeacherUtil;
 import com.vsproject.VisualProgrammingBackend.entity.Teacher;
 import com.vsproject.VisualProgrammingBackend.entity.User;
 import com.vsproject.VisualProgrammingBackend.repository.TeacherRepository;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +29,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final AuthUserUtil authUserUtil;
+    private final TeacherUtil teacherUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public DataResult<Teacher> getTeacherByEmail(String email) {
@@ -72,4 +84,41 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return new SuccessDataResult<>(teacher, "Teacher found");
     }
+
+    @Override
+    public Result createTeacher(TeacherCreateRequest request) {
+
+        Teacher teacher = Teacher.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .phoneNumber(request.getPhoneNumber())
+                .birthYear(request.getBirthYear())
+                .role(Role.TEACHER)
+                .createdAt(LocalDateTime.now())
+                .profession(request.getProfession())
+                .upgradedAt(LocalDateTime.now())
+                .courseSections(new ArrayList<>())
+                .build();
+
+        Result saveResult = save(teacher);
+        if (!saveResult.isSuccess()) {
+            return saveResult;
+        }
+
+        return new SuccessResult("Teacher saved");
+
+    }
+
+    @Override
+    public DataResult<List<TeacherResponse>> getAllTeacherResponse(int page, int size) {
+
+        Page<Teacher> teacherPage = teacherRepository.findAll(PageRequest.of(page, size));
+        List<TeacherResponse> responses = teacherUtil.convertTeacherResponses(teacherPage.toList());
+
+        return new SuccessDataResult<>(responses, "All Teacher fetched");
+
+    }
+
 }

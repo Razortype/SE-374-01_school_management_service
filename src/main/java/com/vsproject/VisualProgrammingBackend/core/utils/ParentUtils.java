@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class ParentUtils {
 
-    private final StudentUtils studentUtils;
+    private final StudentUtil studentUtil;
 
-    public ParentUtils(StudentUtils studentUtils) {
-        this.studentUtils = studentUtils;
+    public ParentUtils(StudentUtil studentUtil) {
+        this.studentUtil = studentUtil;
     }
 
     public List<ParentResponse> mapToParentResponses(List<Parent> parents) {
@@ -25,7 +25,7 @@ public class ParentUtils {
     }
 
     private ParentResponse mapToParentResponse(Parent parent) {
-        List<StudentResponse> studentResponses = studentUtils.mapToStudentResponses(
+        List<StudentResponse> studentResponses = studentUtil.mapToStudentResponses(
                 parent.getStudentRelations().stream()
                         .map(StudentParentRelation::getStudent)
                         .collect(Collectors.toList())
