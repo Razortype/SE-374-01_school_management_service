@@ -1,6 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.WeekDay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -51,5 +53,9 @@ public class CourseSection {
     @ManyToOne
     @JoinColumn(name = "school_class_id", referencedColumnName = "id", nullable = false)
     private SchoolClass schoolClass;
+
+    @OneToMany(mappedBy = "courseSection")
+    @JsonIgnore
+    private List<StudentAttendance> attendanceList;
 
 }

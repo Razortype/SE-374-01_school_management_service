@@ -26,7 +26,7 @@ public class StudentCard {
     private String cardNFCToken;
 
     @Column(name = "card_balance")
-    private float cardBalance;
+    private double cardBalance;
 
     @Column(name = "is_blocked")
     private boolean blocked;

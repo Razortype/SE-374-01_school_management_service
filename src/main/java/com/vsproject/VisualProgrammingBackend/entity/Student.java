@@ -1,5 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,10 @@ public class Student extends User {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     private StudentCard card;
+
+    @OneToMany(mappedBy = "student")
+    @JsonBackReference
+    private List<Transaction> transactions;
 
 
 }

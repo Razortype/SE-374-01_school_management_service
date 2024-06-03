@@ -36,12 +36,15 @@ public class StudentAttendance {
     private boolean absent;
 
     @Column(name = "attendance_date")
-    @CreationTimestamp
     private LocalDateTime attendanceDate;
 
     // student many-to-one
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "course_section_id", referencedColumnName = "id")
+    private CourseSection courseSection;
 
 }

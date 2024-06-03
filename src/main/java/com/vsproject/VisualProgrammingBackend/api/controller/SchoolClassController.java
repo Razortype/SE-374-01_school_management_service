@@ -18,6 +18,7 @@ import java.util.UUID;
 @RequestMapping("api/v1/class")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
+@SecurityRequirement(name = "Bearer Authentication")
 public class SchoolClassController {
 
     private final SchoolClassService schoolClassService;

@@ -34,7 +34,7 @@ public class SchoolClassUtil {
         if (registeredIds.isEmpty()) { return new ArrayList<>(); }
 
         return registeredIds.stream()
-                .filter(id -> studentIds.contains(id))
+                .filter(studentIds::contains)
                 .toList();
 
     }

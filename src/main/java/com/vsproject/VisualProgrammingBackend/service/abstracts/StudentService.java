@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface StudentService {
 
+    DataResult<Student> getStudentById(int id);
     DataResult<Student> getStudentByEmail(String email);
     Result create(User user, StudentUpgradeRequest request);
     Result save(Student student);

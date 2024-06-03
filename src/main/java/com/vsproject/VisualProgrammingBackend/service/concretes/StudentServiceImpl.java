@@ -29,6 +29,17 @@ public class StudentServiceImpl implements StudentService {
     private final StudentUtil studentUtil;
 
     @Override
+    public DataResult<Student> getStudentById(int id) {
+
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student == null) {
+            return new ErrorDataResult<>("Student not found: " + id);
+        }
+        return new SuccessDataResult<>(student, "Student found");
+
+    }
+
+    @Override
     public DataResult<Student> getStudentByEmail(String email) {
         Student student = studentRepository.findStudentByEmail(email).orElse(null);
         if (student == null) {
