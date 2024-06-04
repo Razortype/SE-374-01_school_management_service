@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -63,27 +62,28 @@ public class CourseServiceImpl implements CourseService {
         if (course == null) {
             return new ErrorDataResult<>("Course not found:" + id);
         }
-        return new SuccessDataResult<>("Course found");
+        return new SuccessDataResult<>(course, "Course found");
     }
 
     @Override
-    public Result registerToClass(SchoolClass schoolClass, CourseSectionCreateRequest request) {
+    public Result registerSectionToClass(SchoolClass schoolClass, CourseSectionCreateRequest request) {
 
-        DataResult teacherResult = teacherService.getTeacherById(request.getTeacherId());
+        DataResult<Teacher> teacherResult = teacherService.getTeacherById(request.getTeacherId());
         if (!teacherResult.isSuccess()) {
             return new ErrorDataResult<>(teacherResult.getMessage());
         }
-        DataResult courseResult = getCourseById(request.getCourseId());
+        DataResult<Course> courseResult = getCourseById(request.getCourseId());
         if (!courseResult.isSuccess()) {
             return new ErrorDataResult<>(courseResult.getMessage());
         }
 
         CourseSection courseSection = CourseSection.builder()
-                .teacher((Teacher) teacherResult.getData())
-                .course((Course) courseResult.getData())
+                .teacher(teacherResult.getData())
+                .course(courseResult.getData())
                 .schoolClass(schoolClass)
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
+                .weekDay(request.getWeekDay())
                 .build();
 
         return save(courseSection);
@@ -122,6 +122,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Result delete(CourseSection section) {
+        try {
+            courseSectionRepository.delete(section);
+        } catch (Exception e) {
+            return new ErrorResult("UEO: " + e.getMessage());
+        }
+        return new SuccessResult("CourseSection deleted");
+    }
+
+    @Override
     public DataResult<CourseSection> getCourseSectionById(UUID id) {
 
         CourseSection section = courseSectionRepository.findById(id).orElse(null);
@@ -151,7 +161,7 @@ public class CourseServiceImpl implements CourseService {
     public DataResult<List<CourseSectionResponse>> getAllCourseSectionResponse(int page, int size) {
 
         Page<CourseSection> courseSections = courseSectionRepository.findAll(PageRequest.of(page, size));
-        List<CourseSectionResponse> responses = courseSectionUtil.convertCourseSectionResponses(courseSections.toList());
+        List<CourseSectionResponse> responses = courseSectionUtil.mapToCourseSectionResponses(courseSections.toList());
 
         return new SuccessDataResult<>(responses, "All CourseSection fetched");
 

@@ -95,10 +95,12 @@ public class TransactionServiceImpl implements TransactionService {
         Student student = studentResult.getData();
         StudentCard card = student.getCard();
 
+        if (student.getBlockedProducts().contains(product)) {
+            return new ErrorResult("Purchase failed. product blocked");
+        }
         if (product.getQuantity() < request.getBoughtQuantity()) {
             return new ErrorResult(String.format("Requested amount not exist in storage: %d/%d", request.getBoughtQuantity(), product.getQuantity()));
         }
-
         double purchaseAmount = request.getBoughtQuantity() * product.getPrice();
         if (purchaseAmount > student.getCard().getCardBalance()) {
             return new ErrorResult(String.format("Student [%s] don't have sufficient balance. %d/%d", student.getSchoolNumber(), student.getCard().getCardBalance(), purchaseAmount));

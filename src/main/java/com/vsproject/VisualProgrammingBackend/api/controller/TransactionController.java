@@ -22,7 +22,7 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @GetMapping("/paged")
+    @GetMapping
     public ResponseEntity<DataResult<List<TransactionResponse>>> getAllTransactionResponsePaged(@RequestParam(defaultValue = "-1") int page,
                                                                                                 @RequestParam(defaultValue = "-1") int size,
                                                                                                 @RequestParam(required = false) LocalDateTime startDate,

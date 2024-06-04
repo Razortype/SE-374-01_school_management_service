@@ -1,7 +1,9 @@
 package com.vsproject.VisualProgrammingBackend.api.controller;
 
 import com.vsproject.VisualProgrammingBackend.api.dto.ClassCreateRequest;
+import com.vsproject.VisualProgrammingBackend.api.dto.CourseSectionCreateRequest;
 import com.vsproject.VisualProgrammingBackend.api.dto.SchoolClassResponse;
+import com.vsproject.VisualProgrammingBackend.api.dto.StudentListRequest;
 import com.vsproject.VisualProgrammingBackend.core.results.DataResult;
 import com.vsproject.VisualProgrammingBackend.core.results.Result;
 import com.vsproject.VisualProgrammingBackend.entity.SchoolClass;
@@ -46,9 +48,9 @@ public class SchoolClassController {
     @PutMapping("{class-id}/student/add")
     public ResponseEntity<Result> addStudentToClass(
             @PathVariable(name = "class-id") UUID schoolClassId,
-            @RequestBody List<Integer> studentIds) {
+            @RequestBody StudentListRequest request) {
 
-        Result result = schoolClassService.addStudent(schoolClassId, studentIds);
+        Result result = schoolClassService.addStudent(schoolClassId, request.getStudentIds());
         result.determineHttpStatus();
         return ResponseEntity.status(result.getHttpStatus())
                 .body(result);
@@ -58,13 +60,33 @@ public class SchoolClassController {
     @PutMapping("{class-id}/student/remove")
     public ResponseEntity<Result> removeStudentFromClass(
             @PathVariable(name = "class-id") UUID schoolClassId,
-            @RequestBody List<Integer> studentIds) {
+            @RequestBody StudentListRequest request) {
 
-        Result result = schoolClassService.removeStudents(schoolClassId, studentIds);
+        Result result = schoolClassService.removeStudents(schoolClassId, request.getStudentIds());
         result.determineHttpStatus();
         return ResponseEntity.status(result.getHttpStatus())
                 .body(result);
 
     }
 
+    @PostMapping("{class-id}/section/add")
+    public ResponseEntity<Result> registerSectionToClass(@PathVariable(name = "class-id") UUID schoolClassId, @RequestBody CourseSectionCreateRequest request) {
+
+        Result result = schoolClassService.registerCourseSectionToClass(schoolClassId, request);
+        result.determineHttpStatus();
+        return ResponseEntity.status(result.getHttpStatus())
+                .body(result);
+
+    }
+
+    @DeleteMapping("{class-id}/section/{section-id}/remove")
+    public ResponseEntity<Result> removeSectionToClass(@PathVariable(name = "class-id") UUID schoolClassId,
+                                                       @PathVariable(name = "section-id") UUID courseSectionId) {
+
+        Result result = schoolClassService.removeCourseSectionToClass(schoolClassId, courseSectionId);
+        result.determineHttpStatus();
+        return ResponseEntity.status(result.getHttpStatus())
+                .body(result);
+
+    }
 }

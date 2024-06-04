@@ -1,6 +1,7 @@
 package com.vsproject.VisualProgrammingBackend.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vsproject.VisualProgrammingBackend.core.enums.privateEnums.WeekDay;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,9 @@ public class CourseSectionResponse {
 
     @JsonProperty("end_time")
     private LocalTime endTime;
+
+    @JsonProperty("week_day")
+    private WeekDay weekDay;
 
     @JsonProperty("teacher_id")
     private int teacherId;

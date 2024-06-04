@@ -12,6 +12,8 @@ import com.vsproject.VisualProgrammingBackend.entity.User;
 import com.vsproject.VisualProgrammingBackend.repository.StudentRepository;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -105,10 +107,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public DataResult<List<StudentResponse>> getAllStudents() {
+    public DataResult<List<StudentResponse>> getAllStudents(int page, int size) {
 
-        List<Student> students = studentRepository.findAll();
-        List<StudentResponse> responseList = studentUtil.mapToStudentResponses(students);
+        if (page < 0 || size <= 0) {
+            return new ErrorDataResult<>("Page or Size value error. page >= 0, size > 0");
+        }
+
+        Page<Student> studentPage = studentRepository.findAll(PageRequest.of(page, size));
+        List<StudentResponse> responseList = studentUtil.mapToStudentResponses(studentPage.toList());
         return new SuccessDataResult<>(responseList, "Students fetched");
 
     }

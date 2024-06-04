@@ -16,6 +16,7 @@ public interface TeacherService {
     DataResult<Teacher> getTeacherByEmail(String email);
     Result create(User user, TeacherUpgradeRequest request);
     Result save(Teacher teacher);
+    Result register(TeacherCreateRequest request);
 
     DataResult<Teacher> getTeacherById(int id);
 

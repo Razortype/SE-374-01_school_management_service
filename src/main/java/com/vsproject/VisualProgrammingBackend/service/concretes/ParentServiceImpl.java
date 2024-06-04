@@ -21,6 +21,15 @@ public class ParentServiceImpl implements ParentService {
     private final AuthUserUtil authUserUtil;
 
     @Override
+    public DataResult<Parent> getPrentById(int id) {
+        Parent parent = parentRepository.findById(id).orElse(null);
+        if (parent == null) {
+            return new ErrorDataResult<>("Parent not found: " + id);
+        }
+        return new SuccessDataResult<>(parent, "Parent found");
+    }
+
+    @Override
     public DataResult<Parent> getParentByEmail(String email) {
         Parent parent = parentRepository.findParentByEmail(email).orElse(null);
         if (parent == null) {

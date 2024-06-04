@@ -5,5 +5,6 @@ public enum Role {
     STUDENT,
     PARENT,
     TEACHER,
+    CANTEEN_EMPLOYEE,
     ADMIN
 }

@@ -1,5 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,5 +29,9 @@ public class Parent extends User {
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private Set<StudentParentRelation> studentRelations;
+
+    @OneToMany(mappedBy = "parent")
+    @JsonBackReference
+    private List<StudentBlockedProduct> blockedProducts;
 
 }

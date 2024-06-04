@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +38,8 @@ public class SchoolClassServiceImpl implements SchoolClassService {
         SchoolClass newSchoolClass = SchoolClass.builder()
                 .className(request.getClassName())
                 .classCode(request.getClassCode())
+                .courseSections(new ArrayList<>())
+                .students(new ArrayList<>())
                 .build();
 
         return createClass(newSchoolClass);
@@ -81,9 +84,16 @@ public class SchoolClassServiceImpl implements SchoolClassService {
             schoolClass.getStudents().add(student);
             student.setSchoolClass(schoolClass);
 
-            studentService.save(student);
+            Result studentSaveResult = studentService.save(student);
+            if (!studentSaveResult.isSuccess()) {
+                return studentSaveResult;
+            }
+
         }
-        save(schoolClass);
+        Result schoolSaveResult = save(schoolClass);
+        if (!schoolSaveResult.isSuccess()) {
+            return schoolSaveResult;
+        }
 
         return new SuccessResult("Student List added to SchoolClass");
     }
@@ -112,16 +122,48 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     public Result registerCourseSectionToClass(UUID schoolClassId, CourseSectionCreateRequest request) {
-        DataResult schoolClassResult = getSchoolClassById(schoolClassId);
+        DataResult<SchoolClass> schoolClassResult = getSchoolClassById(schoolClassId);
         if (!schoolClassResult.isSuccess()) {
             return new ErrorDataResult<>(schoolClassResult.getMessage());
         }
 
-        return courseService.registerToClass((SchoolClass) schoolClassResult.getData(), request);
+        return courseService.registerSectionToClass(schoolClassResult.getData(), request);
+    }
+
+    @Override
+    public Result removeCourseSectionToClass(UUID schoolClassId, UUID courseSectionId) {
+
+        DataResult<SchoolClass> schoolClassResult = getSchoolClassById(schoolClassId);
+        if (!schoolClassResult.isSuccess()) {
+            return new ErrorResult(schoolClassResult.getMessage());
+        }
+        SchoolClass schoolClass = schoolClassResult.getData();
+
+        DataResult<CourseSection> courseSectionResult = courseService.getCourseSectionById(courseSectionId);
+        if (!courseSectionResult.isSuccess()) {
+            return new ErrorResult(courseSectionResult.getMessage());
+        }
+        CourseSection section = courseSectionResult.getData();
+
+        if (!schoolClass.getCourseSections().contains(section)) {
+            return new ErrorResult("Class not contain section");
+        }
+
+        Result deleteResult = courseService.delete(section);
+        if (!deleteResult.isSuccess()) {
+            return deleteResult;
+        }
+
+        return new SuccessResult("Section removed from class");
+
     }
 
     @Override
     public DataResult<List<SchoolClassResponse>> getAllSchoolClassResponse(int page, int size) {
+
+        if (page < 0 || size <= 0) {
+            return new ErrorDataResult<>("Page or Size value error. page >= 0, size > 0");
+        }
 
         Page<SchoolClass> classes = schoolClassRepository.findAll(PageRequest.of(page, size));
         List<SchoolClassResponse> responses = schoolClassUtil.convertSchoolClassResponses(classes.toList());

@@ -9,19 +9,20 @@ import java.util.List;
 @Service
 public class CourseSectionUtil {
 
-    public List<CourseSectionResponse> convertCourseSectionResponses(List<CourseSection> courseSections) {
+    public List<CourseSectionResponse> mapToCourseSectionResponses(List<CourseSection> courseSections) {
 
         return courseSections.stream()
-                .map(this::convertCourseSectionResponse)
+                .map(this::mapToCourseSectionResponse)
                 .toList();
 
     }
 
-    public CourseSectionResponse convertCourseSectionResponse(CourseSection courseSection) {
+    public CourseSectionResponse mapToCourseSectionResponse(CourseSection courseSection) {
         return CourseSectionResponse.builder()
                 .courseSectionId(courseSection.getId())
                 .startTime(courseSection.getStartTime())
                 .endTime(courseSection.getEndTime())
+                .weekDay(courseSection.getWeekDay())
                 .teacherId(courseSection.getTeacher().getId())
                 .courseId(courseSection.getCourse().getId())
                 .schoolClassId(courseSection.getSchoolClass().getId())

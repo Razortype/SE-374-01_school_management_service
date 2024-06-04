@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "student")
 @EntityListeners(AuditingEntityListener.class)
+@ToString(exclude = {"schoolClass", "attendanceList", "parentRelations", "transactions", "card", "blockedProducts"})
 public class Student extends User {
 
     @Column(name = "school_number", unique = true)
@@ -36,7 +38,7 @@ public class Student extends User {
 
     // school class many-to-one
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @JoinColumn(name = "school_id", referencedColumnName = "id")
     private SchoolClass schoolClass;
 
     // attendance one-to-many
@@ -53,5 +55,9 @@ public class Student extends User {
     @JsonBackReference
     private List<Transaction> transactions;
 
+
+    @OneToMany(mappedBy = "student")
+    @JsonBackReference
+    private List<StudentBlockedProduct> blockedProducts;
 
 }

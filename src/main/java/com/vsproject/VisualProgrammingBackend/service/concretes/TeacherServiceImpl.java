@@ -77,6 +77,29 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public Result register(TeacherCreateRequest request) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Teacher teacher = Teacher.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .profession(request.getProfession())
+                .courseSections(new ArrayList<>())
+                .phoneNumber(request.getPhoneNumber())
+                .birthYear(request.getBirthYear())
+                .role(Role.TEACHER)
+                .createdAt(now)
+                .upgradedAt(now)
+                .build();
+
+        return save(teacher);
+
+    }
+
+    @Override
     public DataResult<Teacher> getTeacherById(int id) {
         Teacher teacher = teacherRepository.findById(id).orElse(null);
         if (teacher == null) {

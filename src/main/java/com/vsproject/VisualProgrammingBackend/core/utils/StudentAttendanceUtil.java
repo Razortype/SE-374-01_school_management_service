@@ -24,7 +24,7 @@ public class StudentAttendanceUtil {
 
     public StudentAttendanceResponse mapToAttendanceResponse(StudentAttendance attendance) {
 
-        CourseSectionResponse sectionResponse = courseSectionUtil.convertCourseSectionResponse(attendance.getCourseSection());
+        CourseSectionResponse sectionResponse = courseSectionUtil.mapToCourseSectionResponse(attendance.getCourseSection());
 
         return StudentAttendanceResponse.builder()
                 .id(attendance.getId())

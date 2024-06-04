@@ -16,16 +16,17 @@ public interface CourseService {
     Result save(Course course);
 
     DataResult<Course> getCourseById(UUID id);
-    Result registerToClass(SchoolClass schoolClass, CourseSectionCreateRequest request);
     Result save(CourseSection courseSection);
 
     DataResult<List<CourseResponse>> getAllCourseResponse(int page, int size);
     Result editCourse(UUID courseId, CourseEditRequest request);
+    Result delete(CourseSection section);
 
 
     // course section
     DataResult<CourseSection> getCourseSectionById(UUID id);
     DataResult<List<CourseSectionResponse>> getAllCourseSectionResponse(int page, int size);
+    Result registerSectionToClass(SchoolClass schoolClass, CourseSectionCreateRequest request);
     Result editCourseSection(UUID sectionId, CourseSectionEditRequest request);
 
 }

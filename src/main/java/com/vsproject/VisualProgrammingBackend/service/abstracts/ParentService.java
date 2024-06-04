@@ -8,6 +8,7 @@ import com.vsproject.VisualProgrammingBackend.entity.User;
 
 public interface ParentService {
 
+    DataResult<Parent> getPrentById(int id);
     DataResult<Parent> getParentByEmail(String email);
     Result create(User user, ParentUpgradeRequest request);
     Result save(Parent parent);

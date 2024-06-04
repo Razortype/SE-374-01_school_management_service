@@ -18,7 +18,7 @@ public interface StudentService {
     Result save(Student student);
     Result register(StudentCreateRequest request);
 
-    DataResult<List<StudentResponse>> getAllStudents();
+    DataResult<List<StudentResponse>> getAllStudents(int page, int size);
 
     List<Student> getStudentListByIdList(List<Integer> studentIds);
 

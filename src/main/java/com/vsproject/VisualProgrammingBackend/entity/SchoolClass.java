@@ -1,5 +1,6 @@
 package com.vsproject.VisualProgrammingBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,10 +31,12 @@ public class SchoolClass {
     private String classCode;
 
     @OneToMany(mappedBy = "schoolClass")
+    @JsonIgnore
     private List<CourseSection> courseSections;
 
     // registered students one-to-many
     @OneToMany(mappedBy = "schoolClass")
+    @JsonIgnore
     private List<Student> students;
 
 }

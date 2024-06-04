@@ -21,6 +21,7 @@ public interface SchoolClassService {
     Result addStudent(UUID schoolClassId, List<Integer> studentIds);
     Result removeStudents(UUID schoolClassId, List<Integer> studentIds);
     Result registerCourseSectionToClass(UUID schoolClassId, CourseSectionCreateRequest request);
+    Result removeCourseSectionToClass(UUID schoolClassId, UUID courseSectionId);
 
     DataResult<List<SchoolClassResponse>> getAllSchoolClassResponse(int page, int size);
 

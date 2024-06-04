@@ -49,5 +49,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonBackReference
     private List<Transaction> transaction;
+
+    @OneToMany(mappedBy = "product")
+    @JsonBackReference
+    private List<StudentBlockedProduct> blockedProducts;
     
 }

@@ -26,7 +26,4 @@ public class StudentCreateRequest {
     @JsonProperty("birth_year")
     private int birthYear;
 
-    @JsonProperty("class_name")
-    private String className;
-
 }
