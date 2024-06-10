@@ -104,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
         product.setProductName(request.getProductName());
         product.setProductDescription(request.getProductDescription());
         product.setPrice(request.getPrice());
-        product.setPrice(request.getPrice());
+        product.setQuantity(request.getQuantity());
 
         Result saveResult = save(product);
         if (!saveResult.isSuccess()) {
