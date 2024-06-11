@@ -6,7 +6,6 @@ import com.vsproject.VisualProgrammingBackend.api.dto.ProductUpdateRequest;
 import com.vsproject.VisualProgrammingBackend.core.results.DataResult;
 import com.vsproject.VisualProgrammingBackend.core.results.Result;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.ProductService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +44,6 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Result> createProduct(@RequestBody ProductCreateRequest request) {
-
         Result result = productService.save(request);
         result.determineHttpStatus();
         return ResponseEntity.status(result.getHttpStatus())
@@ -56,7 +54,6 @@ public class ProductController {
     @PutMapping("/{product-id}")
     public ResponseEntity<Result> updateProduct(@PathVariable(name = "product-id") UUID productId,
                                                                      @RequestBody ProductUpdateRequest request) {
-
         Result result = productService.updateProduct(productId, request);
         result.determineHttpStatus();
         return ResponseEntity.status(result.getHttpStatus())
