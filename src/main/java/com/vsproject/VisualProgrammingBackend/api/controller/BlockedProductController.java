@@ -5,6 +5,7 @@ import com.vsproject.VisualProgrammingBackend.api.dto.BlockedProductResponse;
 import com.vsproject.VisualProgrammingBackend.core.results.DataResult;
 import com.vsproject.VisualProgrammingBackend.core.results.Result;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.BlockedProductService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/blocked-product")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class BlockedProductController {
 
     private final BlockedProductService blockedProductService;

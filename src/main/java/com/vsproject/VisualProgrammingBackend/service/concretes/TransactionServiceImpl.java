@@ -103,7 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         double purchaseAmount = request.getBoughtQuantity() * product.getPrice();
         if (purchaseAmount > student.getCard().getCardBalance()) {
-            return new ErrorResult(String.format("Student [%s] don't have sufficient balance. %d/%d", student.getSchoolNumber(), student.getCard().getCardBalance(), purchaseAmount));
+            return new ErrorResult(String.format("Student [%s] don't have sufficient balance. %s/%s", student.getSchoolNumber(), purchaseAmount, student.getCard().getCardBalance()));
         }
 
         product.setQuantity(product.getQuantity() - request.getBoughtQuantity());

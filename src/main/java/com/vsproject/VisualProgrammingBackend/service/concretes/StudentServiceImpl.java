@@ -8,8 +8,10 @@ import com.vsproject.VisualProgrammingBackend.core.results.*;
 import com.vsproject.VisualProgrammingBackend.core.utils.AuthUserUtil;
 import com.vsproject.VisualProgrammingBackend.core.utils.StudentUtil;
 import com.vsproject.VisualProgrammingBackend.entity.Student;
+import com.vsproject.VisualProgrammingBackend.entity.StudentCard;
 import com.vsproject.VisualProgrammingBackend.entity.User;
 import com.vsproject.VisualProgrammingBackend.repository.StudentRepository;
+import com.vsproject.VisualProgrammingBackend.service.abstracts.CardService;
 import com.vsproject.VisualProgrammingBackend.service.abstracts.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final AuthUserUtil authUserUtil;
     private final PasswordEncoder passwordEncoder;
+    private final CardService cardService;
 
     private final StudentUtil studentUtil;
 
@@ -101,6 +104,10 @@ public class StudentServiceImpl implements StudentService {
                 .createdAt(now)
                 .upgradedAt(now)
                 .build();
+
+        StudentCard card = cardService.generateStudentCard();
+        student.setCard(card);
+        cardService.save(card);
 
         return save(student);
 
