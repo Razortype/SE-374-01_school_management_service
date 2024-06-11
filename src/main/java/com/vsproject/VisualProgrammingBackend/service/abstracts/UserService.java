@@ -12,6 +12,7 @@ public interface UserService {
     DataResult<User> getUserById(int id);
     DataResult<User> getUserByEmail(String email);
     Result upgradeAuthUserAccount(AccountType accountType, Map<String, Object> request);
+    Result upgradeAdminUserAccount(int userId, AccountType accountType, Map<String, Object> request);
     Result upgradeUserAccount(User user, AccountType accountType, Map<String, Object> request);
     void delete(User user);
 

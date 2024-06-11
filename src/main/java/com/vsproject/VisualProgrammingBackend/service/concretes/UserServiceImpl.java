@@ -64,6 +64,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Result upgradeAdminUserAccount(int userId, AccountType accountType, Map<String, Object> request) {
+
+        DataResult<User> userResult = getUserById(userId);
+        if (!userResult.isSuccess()) {
+            return new ErrorResult(userResult.getMessage());
+        }
+        User user = userResult.getData();
+
+        return upgradeUserAccount(user, accountType, request);
+
+    }
+
+    @Override
     public Result upgradeUserAccount(User user, AccountType accountType, Map<String, Object> request) {
 
         if (accountType == null) {
